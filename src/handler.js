@@ -6,7 +6,7 @@ export function keyHandler(state, action) {
       keyInput: true,
       current: action.text,
     };
-  const value = current * 10 + action.text;
+  const value = current + action.text;
   return {
     ...state,
     current: value,
@@ -44,6 +44,15 @@ export function unaryHanlder(state, action) {
 function caclulate(state) {
   const { lvalue, rvalue } = state;
 
+  const lvalueFloatingPoint =
+    lvalue !== null ? lvalue.slice(lvalue.indexOf(".")).length : -1;
+  const rvalueFloatingPoint =
+    rvalue !== null ? rvalue.slice(rvalue.indexOf(".")).length : -1;
+
+  const floatingPoint = Math.max(lvalueFloatingPoint, rvalueFloatingPoint) - 1;
+  const l = parseFloat(lvalue, 10);
+  const r = parseFloat(rvalue, 10);
+
   const { operator } = state;
   switch (operator) {
     case "/":
@@ -57,12 +66,12 @@ function caclulate(state) {
           keyInput: false,
         };
       }
-      return lvalue / rvalue;
+      return parseFloat(l / r).toFixed(floatingPoint) + "";
     case "X":
-      return lvalue * rvalue;
+      return parseFloat(l * r).toFixed(floatingPoint) + "";
     case "-":
     case "+":
-      return lvalue + rvalue;
+      return parseFloat(l + r).toFixed(floatingPoint) + "";
     default:
       throw new Error(`Unhandled Operator: ${operator}`);
   }
@@ -72,7 +81,7 @@ function setTemporalState(state) {
   return {
     ...state,
     lvalue: state.lvalue === null ? state.rvalue : state.lvalue,
-    rvalue: state.operator === "-" ? -state.current : state.current,
+    rvalue: state.operator === "-" ? "-" + state.current : state.current,
   };
 }
 

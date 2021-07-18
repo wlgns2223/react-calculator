@@ -33,6 +33,7 @@ const Key = styled.div`
 
   ${(props) => {
     const selectedColor = colorStyles[props.color];
+
     return css`
       background-color: ${selectedColor};
     `;
