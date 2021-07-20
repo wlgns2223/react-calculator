@@ -55,6 +55,10 @@ function getFloatingPointFrom(lvalue, rvalue) {
   return Math.max(lvalueFloatingPoint, rvalueFloatingPoint) - 1;
 }
 
+function isZero(rvalue) {
+  return rvalue === 0;
+}
+
 function caclulate(state) {
   const { lvalue, rvalue, operator } = state;
   const floatingPoint = getFloatingPointFrom(lvalue, rvalue);
@@ -63,7 +67,7 @@ function caclulate(state) {
 
   switch (operator) {
     case "/":
-      if (rvalue === 0) {
+      if (isZero(rvalue)) {
         alert("오류: 0으로 나누기. 연산을 초기화 합니다.");
         return {
           rvalue: null,

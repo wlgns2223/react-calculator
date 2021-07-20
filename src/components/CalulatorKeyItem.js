@@ -5,7 +5,7 @@ import { useDispatchContext } from "../CalculatorContext";
 const colorStyles = {
   darkGray: "#595260",
   gold: "#ffd523",
-  gray: "b2b1b9",
+  gray: "#b2b1b9",
 };
 
 const Key = styled.div`
@@ -38,6 +38,16 @@ const Key = styled.div`
       background-color: ${selectedColor};
     `;
   }}
+
+  &:focus {
+    background-color: white;
+    outline: none;
+    border: none;
+    ${({ color }) =>
+      css`
+        color: ${colorStyles[color]};
+      `}
+  }
 `;
 
 export default function CalculatorKeyItem({ text, isZero, color, type }) {
@@ -47,7 +57,7 @@ export default function CalculatorKeyItem({ text, isZero, color, type }) {
   };
 
   return (
-    <Key isZero={isZero} color={color} onClick={onClick}>
+    <Key tabIndex="0" isZero={isZero} color={color} onClick={onClick}>
       {text}
     </Key>
   );
