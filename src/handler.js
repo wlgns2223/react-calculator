@@ -1,20 +1,25 @@
 export function keyHandler(state, action) {
-  const { keyInput, current } = state;
-  if (!keyInput)
+  if (!isKeyInputNull(state))
     return {
       ...state,
       keyInput: true,
       current: action.text,
     };
-  const value = current + action.text;
   return {
     ...state,
-    current: value,
+    current: addCurrentAndClickedKey(state, action),
   };
 }
 
+function isKeyInputNull({ keyInput }) {
+  return keyInput;
+}
+
+function addCurrentAndClickedKey({ current }, { text }) {
+  return current + text;
+}
+
 export function unaryHanlder(state, action) {
-  const { current } = state;
   switch (action.text) {
     case "AC":
       return {
@@ -27,12 +32,12 @@ export function unaryHanlder(state, action) {
     case "+/-":
       return {
         ...state,
-        current: -current,
+        current: -state.current,
       };
     case "%":
       return {
         ...state,
-        current: current / 100,
+        current: state.current / 100,
       };
     default:
       return {
@@ -41,19 +46,21 @@ export function unaryHanlder(state, action) {
   }
 }
 
-function caclulate(state) {
-  const { lvalue, rvalue } = state;
-
+function getFloatingPointFrom(lvalue, rvalue) {
   const lvalueFloatingPoint =
     lvalue !== null ? lvalue.slice(lvalue.indexOf(".")).length : -1;
   const rvalueFloatingPoint =
     rvalue !== null ? rvalue.slice(rvalue.indexOf(".")).length : -1;
 
-  const floatingPoint = Math.max(lvalueFloatingPoint, rvalueFloatingPoint) - 1;
+  return Math.max(lvalueFloatingPoint, rvalueFloatingPoint) - 1;
+}
+
+function caclulate(state) {
+  const { lvalue, rvalue, operator } = state;
+  const floatingPoint = getFloatingPointFrom(lvalue, rvalue);
   const l = parseFloat(lvalue, 10);
   const r = parseFloat(rvalue, 10);
 
-  const { operator } = state;
   switch (operator) {
     case "/":
       if (rvalue === 0) {
@@ -85,10 +92,14 @@ function setTemporalState(state) {
   };
 }
 
+function isRvalueAndLvalueNull({ rvalue, lvalue }) {
+  return rvalue === null && lvalue === null;
+}
+
 export function binaryHandler(state, action) {
   try {
     if (state.keyInput) {
-      if (state.rvalue === null && state.lvalue === null) {
+      if (isRvalueAndLvalueNull(state)) {
         return {
           ...state,
           lvalue: null,
@@ -99,7 +110,7 @@ export function binaryHandler(state, action) {
       }
 
       state = setTemporalState(state);
-      const value = caclulate(state, action);
+      const value = caclulate(state);
       return {
         lvalue: value,
         rvalue: state.rvalue,
@@ -115,8 +126,11 @@ export function binaryHandler(state, action) {
   return { ...state, operator: action.text };
 }
 
+function isKeyInputOrLvalueNull({ keyInput, lvalue }) {
+  return keyInput || lvalue === null;
+}
 export function calculateHanlder(state) {
-  if (state.keyInput || state.lvalue === null) {
+  if (isKeyInputOrLvalueNull(state)) {
     state = setTemporalState(state);
   }
 
