@@ -48,37 +48,36 @@ const Key = styled.button`
 
   ${(props) => {
     const selectedColor = colorStyles[props.color];
-
     return css`
       background-color: ${selectedColor};
     `;
   }}
 
+  ${({ active, color }) =>
+    active &&
+    css`
+      background-color: white;
+      color: ${colorStyles[color]};
+    `}
+
   &:active {
-    background-color: white;
     animation: ${btnAnimation} 300ms linear;
-    ${({ color }) =>
-      css`
-        color: ${colorStyles[color]};
-      `}
   }
   transition: all 300ms ease-in-out;
 `;
 
-export default function CalculatorKeyItem({ text, color, type }) {
+export default function CalculatorKeyItem({ akey, onToggle }) {
+  const { id, color, type, text, active } = akey;
   const dispatch = useDispatchContext();
   const isZero = text === "0" ? true : false;
   const onClick = () => {
     dispatch({ type, text });
+    onToggle(id);
   };
 
   return (
-    <Key isZero={isZero} color={color} onClick={onClick}>
+    <Key isZero={isZero} color={color} onClick={onClick} active={active}>
       {text}
     </Key>
   );
 }
-
-CalculatorKeyItem.defaultProps = {
-  color: "gray",
-};

@@ -13,15 +13,23 @@ const CalculatorKeypadBlock = styled.div`
 
 export default function CalculatorKeypad() {
   const [keys, setKeys] = useState(initialKeyState);
-  console.log(keys);
+  const onToggle = (clickedId) => {
+    setKeys(
+      keys.map((key) =>
+        key.id === clickedId
+          ? { ...key, active: !key.active }
+          : { ...key, active: false }
+      )
+    );
+  };
   return (
     <CalculatorKeypadBlock>
-      {keys.map((key) => (
+      {keys.map((akey) => (
         <CalculatorKeyItem
-          key={key.id}
-          text={key.text}
-          color={key.color}
-          type={key.type}
+          key={akey.id}
+          keys={keys}
+          akey={akey}
+          onToggle={onToggle}
         />
       ))}
     </CalculatorKeypadBlock>
