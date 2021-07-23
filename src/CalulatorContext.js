@@ -6,7 +6,7 @@ import {
   unaryHanlder,
 } from "./handler";
 
-export const initialState = {
+export const initialHeaderState = {
   rvalue: null,
   lvalue: null,
   operator: "",
@@ -14,7 +14,7 @@ export const initialState = {
   keyInput: false,
 };
 
-function calculatorReducer(state, action) {
+function headerReducer(state, action) {
   switch (action.type) {
     case "key":
       return keyHandler(state, action);
@@ -33,7 +33,7 @@ const CalculatorStateContext = createContext();
 const CalculatorDispatchContext = createContext();
 
 export function CalculatorContext({ children }) {
-  const [state, dispatch] = useReducer(calculatorReducer, initialState);
+  const [state, dispatch] = useReducer(headerReducer, initialHeaderState);
   return (
     <CalculatorStateContext.Provider value={state}>
       <CalculatorDispatchContext.Provider value={dispatch}>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
-import { useDispatchContext } from "../CalculatorContext";
+import { useDispatchContext } from "../CalulatorContext";
 
 const colorStyles = {
   darkGray: "#595260",
@@ -65,8 +65,9 @@ const Key = styled.button`
   transition: all 300ms ease-in-out;
 `;
 
-export default function CalculatorKeyItem({ text, isZero, color, type }) {
+export default function CalculatorKeyItem({ text, color, type }) {
   const dispatch = useDispatchContext();
+  const isZero = text === "0" ? true : false;
   const onClick = () => {
     dispatch({ type, text });
   };

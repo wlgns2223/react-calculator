@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 import CalculatorTemplate from "./components/CalculatorTemplate";
 import CalculatorHeader from "./components/CalculatorHeader";
 import CalculatorKeypad from "./components/CalculatorKeypad";
-import { CalculatorContext } from "./CalculatorContext";
+import { CalculatorContext } from "./CalulatorContext";
 
 const GlobalStyle = createGlobalStyle`
 body{

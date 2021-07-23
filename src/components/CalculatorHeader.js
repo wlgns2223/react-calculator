@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useStateContext } from "../CalculatorContext";
+import { useStateContext } from "../CalulatorContext";
 
 const CalculatorHeaderBlock = styled.div`
   padding: 24px 20px;
