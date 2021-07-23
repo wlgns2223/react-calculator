@@ -23,8 +23,7 @@ const CalulatorScreen = styled.div`
 
 export default function CalculatorHeader() {
   const { current } = useStateContext();
-  const state = useStateContext();
-  console.log(state);
+
   return (
     <CalculatorHeaderBlock>
       <CalulatorScreen>{current}</CalulatorScreen>

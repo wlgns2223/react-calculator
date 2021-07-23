@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useDispatchContext } from "../CalculatorContext";
 
 const colorStyles = {
@@ -8,13 +8,28 @@ const colorStyles = {
   gray: "#b2b1b9",
 };
 
-const Key = styled.div`
+const btnAnimation = keyframes`
+0% {
+  transform: scale(1);
+} 
+
+50% {
+  transform: scale(0.85);
+}
+
+100%{
+  transform: scale(1);
+}
+`;
+
+const Key = styled.button`
   background-color: #b2b1b9;
   border-radius: 50%;
   color: white;
   height: 105px;
   width: 105px;
-
+  outline: none;
+  border: none;
   cursor: pointer;
 
   display: flex;
@@ -39,15 +54,15 @@ const Key = styled.div`
     `;
   }}
 
-  &:focus {
+  &:active {
     background-color: white;
-    outline: none;
-    border: none;
+    animation: ${btnAnimation} 300ms linear;
     ${({ color }) =>
       css`
         color: ${colorStyles[color]};
       `}
   }
+  transition: all 300ms ease-in-out;
 `;
 
 export default function CalculatorKeyItem({ text, isZero, color, type }) {
@@ -57,7 +72,7 @@ export default function CalculatorKeyItem({ text, isZero, color, type }) {
   };
 
   return (
-    <Key tabIndex="0" isZero={isZero} color={color} onClick={onClick}>
+    <Key isZero={isZero} color={color} onClick={onClick}>
       {text}
     </Key>
   );
