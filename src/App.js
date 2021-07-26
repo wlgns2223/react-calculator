@@ -1,9 +1,8 @@
 import "./App.css";
 import { createGlobalStyle } from "styled-components";
 import CalculatorTemplate from "./components/CalculatorTemplate";
-import CalculatorHeader from "./components/CalculatorHeader";
-import CalculatorKeypad from "./components/CalculatorKeypad";
-import { CalculatorContext } from "./CalulatorContext";
+import CalculatorKeypad from "./containers/CalculatorKeypad";
+import CalculatorScreen from "./containers/CalulatorScreen";
 
 const GlobalStyle = createGlobalStyle`
 body{
@@ -13,13 +12,13 @@ body{
 
 function App() {
   return (
-    <CalculatorContext>
+    <>
       <GlobalStyle />
       <CalculatorTemplate>
-        <CalculatorHeader />
+        <CalculatorScreen />
         <CalculatorKeypad />
       </CalculatorTemplate>
-    </CalculatorContext>
+    </>
   );
 }
 

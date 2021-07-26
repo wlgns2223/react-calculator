@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CalculatorKeyItem from "./CalulatorKeyItem";
+import CalculatorKeyItem from "../components/CalulatorKeyItem";
 import initialKeyState from "../InitialKeyState";
+import { useDispatch } from "react-redux";
 
 const CalculatorKeypadBlock = styled.div`
   padding: 32px 20px;
@@ -13,6 +14,8 @@ const CalculatorKeypadBlock = styled.div`
 
 export default function CalculatorKeypad() {
   const [keys, setKeys] = useState(initialKeyState);
+  const dispatch = useDispatch();
+  const onDispatch = (type, text) => dispatch({ type, text });
   const onToggle = (clickedId) => {
     setKeys(
       keys.map((key) =>
@@ -29,6 +32,7 @@ export default function CalculatorKeypad() {
           key={akey.id}
           keys={keys}
           akey={akey}
+          onDispatch={onDispatch}
           onToggle={onToggle}
         />
       ))}

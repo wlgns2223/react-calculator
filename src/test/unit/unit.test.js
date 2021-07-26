@@ -1,5 +1,12 @@
 import { initialHeaderState } from "../../CalulatorContext";
-import { _getfloatingPoint, unaryHanlder } from "../../handler";
+import {
+  _getfloatingPoint,
+  unaryHanlder,
+  _isRvalueAndLvalueNull,
+  _isNumberKeyPressed,
+  _isKeyPressedFirstAndThenBinaryKeyPressed,
+  binaryHandler,
+} from "../../handler";
 import * as reduxModule from "../../modules/redux";
 
 describe("key keyHandler test", () => {
@@ -75,6 +82,35 @@ describe("UnaryHandler test", () => {
   });
 });
 
+describe("binary handler test", () => {
+  it("Rvalue and lvalue가 null이면 true를 반환해야한다.", () => {
+    const temp = {
+      ...initialHeaderState,
+      keyInput: true,
+    };
+    expect(_isRvalueAndLvalueNull(temp)).toBeTruthy();
+    expect(_isNumberKeyPressed(temp)).toBeTruthy();
+  });
+
+  it("binaryHandler는 처음 숫자가 눌러지고 연산자가 눌러지는 경우", () => {
+    const state = {
+      ...initialHeaderState,
+      keyInput: true,
+    };
+    const action = {
+      text: "+",
+    };
+
+    expect(binaryHandler(state, action)).toStrictEqual({
+      ...state,
+      lvalue: null,
+      rvalue: state.current,
+      operator: action.text,
+      keyInput: false,
+    });
+  });
+});
+
 describe("calculate module", () => {
   it("getLvalueFloatingPoint", () => {
     expect(typeof getLvalueFloatingPoint).toBe("function");
@@ -100,6 +136,120 @@ describe("redux module unit test", () => {
     });
     expect(reduxModule.getCalculateInputAction()).toStrictEqual({
       type: reduxModule.CALCULATE_INPUT,
+    });
+  });
+});
+
+describe("reducer", () => {
+  it("should return initial state", () => {
+    expect(reduxModule.reducer(reduxModule.initialState, {})).toStrictEqual(
+      reduxModule.initialState
+    );
+  });
+
+  it("key input action", () => {
+    const action = { text: "1", type: reduxModule.KEY_INPUT };
+    expect(reduxModule.reducer(reduxModule.initialState, action)).toStrictEqual(
+      {
+        ...reduxModule.initialState,
+        keyInput: true,
+        current: action.text,
+      }
+    );
+    const nextState = {
+      ...reduxModule.initialState,
+      keyInput: true,
+      current: "1",
+    };
+
+    expect(reduxModule.reducer(nextState, action)).toStrictEqual({
+      ...nextState,
+      current: "11",
+    });
+  });
+
+  it("unary AC input test", () => {
+    const action = { text: "AC", type: reduxModule.UNARY_INPUT };
+    const tempState = {
+      ...reduxModule.initialState,
+      current: "11",
+    };
+    expect(reduxModule.reducer(tempState, action)).toStrictEqual(
+      reduxModule.initialState
+    );
+  });
+
+  it("unary +/- input test", () => {
+    const action = { text: "+/-", type: reduxModule.UNARY_INPUT };
+    const tempState = {
+      ...reduxModule.initialState,
+      current: "1",
+    };
+    expect(reduxModule.reducer(tempState, action)).toStrictEqual({
+      ...tempState,
+      current: "-1",
+    });
+  });
+
+  it("unary % test", () => {
+    const action = { text: "%", type: reduxModule.UNARY_INPUT };
+    const tempState = {
+      ...reduxModule.initialState,
+      current: "1",
+    };
+
+    expect(reduxModule.reducer(tempState, action)).toStrictEqual({
+      ...tempState,
+      current: "0.01",
+    });
+  });
+
+  it("unary default handle", () => {
+    const action = { text: "!", type: reduxModule.UNARY_INPUT };
+    const tempState = {
+      ...reduxModule.initialState,
+      current: "1",
+    };
+    expect(reduxModule.reducer(tempState, action)).toStrictEqual(tempState);
+  });
+});
+
+describe("Binary Handler test", () => {
+  it("key first input", () => {
+    const action = { text: "+", type: reduxModule.BINARY_INPUT };
+    const tempState = {
+      ...reduxModule.initialState,
+      keyInput: true,
+      current: "1",
+    };
+    expect(reduxModule.reducer(tempState, action)).toStrictEqual({
+      ...tempState,
+      lvalue: null,
+      rvalue: tempState.current,
+      operator: action.text,
+      keyInput: false,
+    });
+  });
+
+  it("2+2 + ", () => {
+    const operatorAction = { text: "+", type: reduxModule.BINARY_INPUT };
+    const numberAction = { text: "2", type: reduxModule.KEY_INPUT };
+
+    let tempState = reduxModule.reducer(reduxModule.initialState, numberAction);
+    tempState = reduxModule.reducer(tempState, operatorAction);
+    tempState = reduxModule.reducer(tempState, numberAction);
+    expect(reduxModule.reducer(tempState, operatorAction)).toStrictEqual({
+      lvalue: "4",
+      rvalue: "2",
+      operator: operatorAction.text,
+      current: "4",
+      keyInput: false,
+    });
+    tempState = reduxModule.reducer(tempState, operatorAction);
+    operatorAction["text"] = "-";
+    expect(reduxModule.reducer(tempState, operatorAction)).toStrictEqual({
+      ...tempState,
+      operator: operatorAction.text,
     });
   });
 });

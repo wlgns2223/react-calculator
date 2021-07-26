@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useStateContext } from "../CalulatorContext";
 
 const CalculatorHeaderBlock = styled.div`
   padding: 24px 20px;
@@ -21,9 +20,7 @@ const CalulatorScreen = styled.div`
   overflow-x: scroll;
 `;
 
-export default function CalculatorHeader() {
-  const { current } = useStateContext();
-
+export default function CalculatorHeader({ current }) {
   return (
     <CalculatorHeaderBlock>
       <CalulatorScreen>{current}</CalulatorScreen>

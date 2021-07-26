@@ -1,4 +1,4 @@
-import { initialHeaderState } from "./CalulatorContext";
+import { initialState } from "./calculatorRedux";
 
 export function keyHandler(state, action) {
   if (isKeyInputFalse(state))
@@ -25,17 +25,17 @@ export function unaryHanlder(state, action) {
   switch (action.text) {
     case "AC":
       return {
-        ...initialHeaderState,
+        ...initialState,
       };
     case "+/-":
       return {
         ...state,
-        current: -state.current,
+        current: -state.current + "",
       };
     case "%":
       return {
         ...state,
-        current: state.current / 100,
+        current: state.current / 100 + "",
       };
     default:
       return {
@@ -100,9 +100,13 @@ function isRvalueAndLvalueNull({ rvalue, lvalue }) {
   return rvalue === null && lvalue === null;
 }
 
+export function _isNumberKeyPressed({ keyInput }) {
+  return keyInput === true;
+}
+
 export function binaryHandler(state, action) {
   try {
-    if (state.keyInput) {
+    if (_isNumberKeyPressed(state)) {
       if (isRvalueAndLvalueNull(state)) {
         return {
           ...state,
@@ -130,11 +134,11 @@ export function binaryHandler(state, action) {
   return { ...state, operator: action.text };
 }
 
-function isKeyInputOrLvalueNull({ keyInput, lvalue }) {
+function _isKeyInputTrueOrLvalueNull({ keyInput, lvalue }) {
   return keyInput || lvalue === null;
 }
 export function calculateHanlder(state) {
-  if (isKeyInputOrLvalueNull(state)) {
+  if (_isKeyInputTrueOrLvalueNull(state)) {
     state = setTemporalState(state);
   }
 
