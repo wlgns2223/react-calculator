@@ -1,5 +1,6 @@
 import { initialHeaderState } from "../../CalulatorContext";
 import { _getfloatingPoint, unaryHanlder } from "../../handler";
+import * as reduxModule from "../../modules/redux";
 
 describe("key keyHandler test", () => {
   it("isKeyInputFalse함수는 false가 들어오면 true를 반환해야한다.", () => {
@@ -83,5 +84,22 @@ describe("calculate module", () => {
     const lvalue = "1.22";
     expect(_getfloatingPoint(lvalue)).toBe(2);
     expect(_getfloatingPoint(null)).toBe(-1);
+  });
+});
+
+describe("redux module unit test", () => {
+  it("액션생성 함수는 알맞는 타입에 알맞는 액션을 넣어 반환해야한다.", () => {
+    expect(reduxModule.getKeyInputAction()).toStrictEqual({
+      type: reduxModule.KEY_INPUT,
+    });
+    expect(reduxModule.getUnaryInputAction()).toStrictEqual({
+      type: reduxModule.UNARY_INPUT,
+    });
+    expect(reduxModule.getBinaryInputAction()).toStrictEqual({
+      type: reduxModule.BINARY_INPUT,
+    });
+    expect(reduxModule.getCalculateInputAction()).toStrictEqual({
+      type: reduxModule.CALCULATE_INPUT,
+    });
   });
 });
