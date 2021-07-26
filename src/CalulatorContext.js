@@ -45,7 +45,7 @@ export function CalculatorContext({ children }) {
 
 export function useStateContext() {
   const context = useContext(CalculatorStateContext);
-  if (typeof context !== "number" && !context) {
+  if (!context) {
     throw new Error(`State Context Undefined ${context}`);
   }
   return context;

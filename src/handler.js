@@ -1,5 +1,7 @@
+import { initialHeaderState } from "./CalulatorContext";
+
 export function keyHandler(state, action) {
-  if (!isKeyInputNull(state))
+  if (isKeyInputFalse(state))
     return {
       ...state,
       keyInput: true,
@@ -11,8 +13,8 @@ export function keyHandler(state, action) {
   };
 }
 
-function isKeyInputNull({ keyInput }) {
-  return keyInput;
+function isKeyInputFalse({ keyInput }) {
+  return keyInput === false;
 }
 
 function addCurrentAndClickedKey({ current }, { text }) {
@@ -23,11 +25,7 @@ export function unaryHanlder(state, action) {
   switch (action.text) {
     case "AC":
       return {
-        rvalue: null,
-        lvalue: null,
-        operator: "",
-        current: 0,
-        keyInput: false,
+        ...initialHeaderState,
       };
     case "+/-":
       return {
@@ -47,12 +45,14 @@ export function unaryHanlder(state, action) {
 }
 
 function getFloatingPointFrom(lvalue, rvalue) {
-  const lvalueFloatingPoint =
-    lvalue !== null ? lvalue.slice(lvalue.indexOf(".")).length : -1;
-  const rvalueFloatingPoint =
-    rvalue !== null ? rvalue.slice(rvalue.indexOf(".")).length : -1;
+  const lvalueFloatingPoint = _getfloatingPoint(lvalue);
+  const rvalueFloatingPoint = _getfloatingPoint(rvalue);
 
-  return Math.max(lvalueFloatingPoint, rvalueFloatingPoint) - 1;
+  return Math.max(lvalueFloatingPoint, rvalueFloatingPoint);
+}
+
+export function _getfloatingPoint(value) {
+  return value !== null ? value.slice(value.indexOf(".")).length - 1 : -1;
 }
 
 function isZero(rvalue) {
