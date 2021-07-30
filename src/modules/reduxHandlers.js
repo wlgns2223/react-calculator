@@ -45,7 +45,6 @@ export function unaryHanlder(state, action) {
 }
 
 function getFloatingPointFrom(lvalue, rvalue) {
-  console.log(`lvalue: ${lvalue} \t rvalue: ${rvalue}`);
   const lvalueFloatingPoint = _getfloatingPoint(lvalue);
   const rvalueFloatingPoint = _getfloatingPoint(rvalue);
 

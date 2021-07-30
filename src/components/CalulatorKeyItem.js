@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled, { css, keyframes } from "styled-components";
 
 const colorStyles = {
@@ -65,13 +65,14 @@ const Key = styled.button`
   transition: all 300ms ease-in-out;
 `;
 
-export default function CalculatorKeyItem({ akey, onToggle, onDispatch }) {
+function CalculatorKeyItem({ akey, dispatch, onToggle }) {
   const { id, color, type, text, active } = akey;
+  console.log("RERENDERING" + id);
   const isZero = text === "0" ? true : false;
-  const onClick = () => {
-    onDispatch(type, text);
+  const onClick = useCallback(() => {
+    dispatch({ type, text });
     onToggle(id);
-  };
+  }, [type, text, dispatch]);
 
   return (
     <Key isZero={isZero} color={color} onClick={onClick} active={active}>
@@ -79,3 +80,4 @@ export default function CalculatorKeyItem({ akey, onToggle, onDispatch }) {
     </Key>
   );
 }
+export default React.memo(CalculatorKeyItem);

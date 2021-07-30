@@ -9,7 +9,7 @@ export const initialState = {
   rvalue: null,
   lvalue: null,
   operator: "",
-  current: 0,
+  current: "0",
   keyInput: false,
 };
 

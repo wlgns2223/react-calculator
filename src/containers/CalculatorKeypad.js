@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import CalculatorKeyItem from "../components/CalulatorKeyItem";
 import initialKeyState from "../InitialKeyState";
@@ -15,24 +15,23 @@ const CalculatorKeypadBlock = styled.div`
 export default function CalculatorKeypad() {
   const [keys, setKeys] = useState(initialKeyState);
   const dispatch = useDispatch();
-  const onDispatch = (type, text) => dispatch({ type, text });
-  const onToggle = (clickedId) => {
-    setKeys(
-      keys.map((key) =>
-        key.id === clickedId
-          ? { ...key, active: !key.active }
-          : { ...key, active: false }
-      )
+  const onToggle = useCallback((id) => {
+    const deletePrevState = keys.map((key) =>
+      key.active ? { ...key, active: false } : key
     );
-  };
+    const newState = deletePrevState.map((key) =>
+      key.id === id ? { ...key, active: !key.active } : key
+    );
+    setKeys(newState);
+  }, []);
+
   return (
     <CalculatorKeypadBlock>
       {keys.map((akey) => (
         <CalculatorKeyItem
           key={akey.id}
-          keys={keys}
           akey={akey}
-          onDispatch={onDispatch}
+          dispatch={dispatch}
           onToggle={onToggle}
         />
       ))}
