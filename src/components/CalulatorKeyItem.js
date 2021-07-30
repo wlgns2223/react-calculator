@@ -1,11 +1,22 @@
 import React, { useCallback } from "react";
 import styled, { css, keyframes } from "styled-components";
 
-const colorStyles = {
-  darkGray: "#595260",
-  gold: "#ffd523",
-  gray: "#b2b1b9",
-};
+function CalculatorKeyItem({ akey, dispatch, onToggle }) {
+  const { id, color, type, text, active } = akey;
+  console.log("RERENDERING" + id);
+  const isZero = text === "0" ? true : false;
+  const onClick = useCallback(() => {
+    dispatch({ type, text });
+    onToggle(id);
+  }, [type, text, dispatch, id, onToggle]);
+
+  return (
+    <Key isZero={isZero} color={color} onClick={onClick} active={active}>
+      {text}
+    </Key>
+  );
+}
+export default React.memo(CalculatorKeyItem);
 
 const btnAnimation = keyframes`
 0% {
@@ -45,18 +56,15 @@ const Key = styled.button`
       border-radius: 32px;
     `}
 
-  ${(props) => {
-    const selectedColor = colorStyles[props.color];
-    return css`
-      background-color: ${selectedColor};
-    `;
-  }}
+  ${(props) => css`
+    background-color: ${props.theme[props.color]};
+  `}
 
-  ${({ active, color }) =>
-    active &&
+  ${(props) =>
+    props.active &&
     css`
       background-color: white;
-      color: ${colorStyles[color]};
+      color: ${props.theme[props.color]};
     `}
 
   &:active {
@@ -64,20 +72,3 @@ const Key = styled.button`
   }
   transition: all 300ms ease-in-out;
 `;
-
-function CalculatorKeyItem({ akey, dispatch, onToggle }) {
-  const { id, color, type, text, active } = akey;
-  console.log("RERENDERING" + id);
-  const isZero = text === "0" ? true : false;
-  const onClick = useCallback(() => {
-    dispatch({ type, text });
-    onToggle(id);
-  }, [type, text, dispatch]);
-
-  return (
-    <Key isZero={isZero} color={color} onClick={onClick} active={active}>
-      {text}
-    </Key>
-  );
-}
-export default React.memo(CalculatorKeyItem);

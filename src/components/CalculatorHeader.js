@@ -1,6 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
+export default function CalculatorHeader({ current }) {
+  return (
+    <CalculatorHeaderBlock>
+      <CalulatorScreen>{current}</CalulatorScreen>
+    </CalculatorHeaderBlock>
+  );
+}
+
 const CalculatorHeaderBlock = styled.div`
   padding: 24px 20px;
   border-bottom: 1px solid #ffd523;
@@ -19,11 +27,3 @@ const CalulatorScreen = styled.div`
   font-size: 2.25rem;
   overflow-x: scroll;
 `;
-
-export default function CalculatorHeader({ current }) {
-  return (
-    <CalculatorHeaderBlock>
-      <CalulatorScreen>{current}</CalulatorScreen>
-    </CalculatorHeaderBlock>
-  );
-}

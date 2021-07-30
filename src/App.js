@@ -1,24 +1,20 @@
 import "./App.css";
-import { createGlobalStyle } from "styled-components";
 import CalculatorTemplate from "./components/CalculatorTemplate";
 import CalculatorKeypad from "./containers/CalculatorKeypad";
 import CalculatorScreen from "./containers/CalulatorScreen";
-
-const GlobalStyle = createGlobalStyle`
-body{
-  background-color: white;
-}
-`;
+import { GlobalStyle } from "./styles/theme";
+import { ThemeProvider } from "styled-components";
+import { pallete } from "./styles/theme";
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={pallete}>
       <GlobalStyle />
       <CalculatorTemplate>
         <CalculatorScreen />
         <CalculatorKeypad />
       </CalculatorTemplate>
-    </>
+    </ThemeProvider>
   );
 }
 

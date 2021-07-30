@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+export default function CalculatorTemplate({ children }) {
+  return <CalculatorTemplateBlock>{children}</CalculatorTemplateBlock>;
+}
+
 const CalculatorTemplateBlock = styled.div`
   width: 512px;
   height: 728px;
@@ -16,7 +20,3 @@ const CalculatorTemplateBlock = styled.div`
   align-items: center;
   flex-direction: column;
 `;
-
-export default function CalculatorTemplate({ children }) {
-  return <CalculatorTemplateBlock>{children}</CalculatorTemplateBlock>;
-}

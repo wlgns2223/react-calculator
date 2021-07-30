@@ -4,14 +4,6 @@ import CalculatorKeyItem from "../components/CalulatorKeyItem";
 import initialKeyState from "../InitialKeyState";
 import { useDispatch } from "react-redux";
 
-const CalculatorKeypadBlock = styled.div`
-  padding: 32px 20px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
 export default function CalculatorKeypad() {
   const [keys, setKeys] = useState(initialKeyState);
   const dispatch = useDispatch();
@@ -22,7 +14,7 @@ export default function CalculatorKeypad() {
     const newState = deletePrevState.map((key) =>
       key.id === id ? { ...key, active: !key.active } : key
     );
-    setKeys(newState);
+    setKeys(() => newState);
   }, []);
 
   return (
@@ -38,3 +30,11 @@ export default function CalculatorKeypad() {
     </CalculatorKeypadBlock>
   );
 }
+
+const CalculatorKeypadBlock = styled.div`
+  padding: 32px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
