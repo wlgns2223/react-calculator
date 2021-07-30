@@ -11,9 +11,11 @@ function CalculatorKeyItem({ akey, dispatch, onToggle }) {
   }, [type, text, dispatch, id, onToggle]);
 
   return (
-    <Key isZero={isZero} color={color} onClick={onClick} active={active}>
-      {text}
-    </Key>
+    <KeyWrapper>
+      <Key isZero={isZero} color={color} onClick={onClick} active={active}>
+        {text}
+      </Key>
+    </KeyWrapper>
   );
 }
 export default React.memo(CalculatorKeyItem);
@@ -32,28 +34,32 @@ const btnAnimation = keyframes`
 }
 `;
 
+const KeyWrapper = styled.li`
+  flex: 1 0 21%;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding: 2px;
+`;
+
 const Key = styled.button`
   background-color: #b2b1b9;
   border-radius: 50%;
   color: white;
-  height: 105px;
-  width: 105px;
+  height: 4.75rem;
+  width: 4.75rem;
   outline: none;
   border: none;
   cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3.75rem;
-
-  margin-bottom: 10px;
+  font-size: 2.25rem;
 
   ${(props) =>
     props.isZero &&
     css`
-      width: 242px;
-      border-radius: 32px;
+      width: 9.5rem;
+      border-radius: 2rem;
     `}
 
   ${(props) => css`

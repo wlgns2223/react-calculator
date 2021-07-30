@@ -6,17 +6,21 @@ export default function CalculatorTemplate({ children }) {
 }
 
 const CalculatorTemplateBlock = styled.div`
-  width: 512px;
-  height: 728px;
-  border-radius: 16px;
+  /* width: 512px; */
+  width: 80%;
+  min-width: 320px;
+  height: 100%;
+  border-radius: 1rem;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-  margin: 0 auto;
-  margin-top: 3rem;
-  padding: 16px;
+  margin: 3rem 1rem;
+  padding: 1rem;
+
   background-color: #2c2e43;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-direction: column;
+
+  @media screen and (min-width: 480px) {
+  }
 `;

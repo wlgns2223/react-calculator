@@ -10,7 +10,7 @@ export default function CalculatorHeader({ current }) {
 }
 
 const CalculatorHeaderBlock = styled.div`
-  padding: 24px 20px;
+  padding: 1rem 0.85rem;
   border-bottom: 1px solid #ffd523;
   width: 100%;
 `;
@@ -20,10 +20,11 @@ const CalulatorScreen = styled.div`
   border: 1px solid white;
   border-radius: 4px;
   width: 100%;
-  height: 72px;
+  height: 4rem;
+  line-height: 4rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 2.25rem;
+  font-size: 3rem;
   overflow-x: scroll;
 `;

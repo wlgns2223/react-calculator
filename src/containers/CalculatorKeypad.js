@@ -19,22 +19,28 @@ export default function CalculatorKeypad() {
 
   return (
     <CalculatorKeypadBlock>
-      {keys.map((akey) => (
-        <CalculatorKeyItem
-          key={akey.id}
-          akey={akey}
-          dispatch={dispatch}
-          onToggle={onToggle}
-        />
-      ))}
+      <KeyList>
+        {keys.map((akey) => (
+          <CalculatorKeyItem
+            key={akey.id}
+            akey={akey}
+            dispatch={dispatch}
+            onToggle={onToggle}
+          />
+        ))}
+      </KeyList>
     </CalculatorKeypadBlock>
   );
 }
 
 const CalculatorKeypadBlock = styled.div`
-  padding: 32px 20px;
+  padding-top: 2rem;
   width: 100%;
+`;
+
+const KeyList = styled.ul`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 `;
