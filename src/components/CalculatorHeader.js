@@ -27,4 +27,16 @@ const CalulatorScreen = styled.div`
   justify-content: flex-end;
   font-size: 3rem;
   overflow-x: scroll;
+
+  @media ${({ theme }) => theme.mediaQueries.medium} {
+    height: 5rem;
+    font-size: 4rem;
+    line-height: 5rem;
+  }
+
+  @media ${({ theme }) => theme.mediaQueries.large} {
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 5rem;
+  }
 `;

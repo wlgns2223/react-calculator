@@ -11,7 +11,7 @@ function CalculatorKeyItem({ akey, dispatch, onToggle }) {
   }, [type, text, dispatch, id, onToggle]);
 
   return (
-    <KeyWrapper>
+    <KeyWrapper isZero={isZero}>
       <Key isZero={isZero} color={color} onClick={onClick} active={active}>
         {text}
       </Key>
@@ -34,6 +34,12 @@ const btnAnimation = keyframes`
 }
 `;
 
+const setZeroBtnWidth = (props) =>
+  props.isZero &&
+  css`
+    width: 100%;
+  `;
+
 const KeyWrapper = styled.li`
   flex: 1 0 21%;
   display: flex;
@@ -42,35 +48,80 @@ const KeyWrapper = styled.li`
   align-items: center;
   margin-bottom: 0.85rem;
   padding: 2px;
+
+  ${(props) =>
+    props.isZero &&
+    css`
+      flex: 1 0 43%;
+    `}
+
+  @media ${({ theme }) => theme.mediaQueries.medium} {
+    ${(props) =>
+      props.isZero &&
+      css`
+        margin-left: 0.5rem;
+      `}
+  }
+
+  @media ${({ theme }) => theme.mediaQueries.large} {
+    ${(props) =>
+      props.isZero &&
+      css`
+        margin-left: 0.75rem;
+      `}
+  }
 `;
 
 const Key = styled.button`
   background-color: #b2b1b9;
   border-radius: 50%;
   color: white;
-  height: 4.75rem;
-  width: 4.75rem;
+  height: 4.5rem;
+  width: 4.5rem;
   outline: none;
   border: none;
   cursor: pointer;
   font-size: 2.25rem;
 
+  @media ${({ theme }) => theme.mediaQueries.medium} {
+    height: 5rem;
+    width: 5rem;
+    font-size: 3rem;
+
+    ${(props) =>
+      props.isZero &&
+      css`
+        width: 100%;
+      `}
+  }
+
+  @media ${({ theme }) => theme.mediaQueries.large} {
+    height: 6.25rem;
+    width: 6.25rem;
+
+    ${(props) =>
+      props.isZero &&
+      css`
+        width: 100%;
+      `}
+  }
+
   ${(props) =>
     props.isZero &&
     css`
-      width: 9.5rem;
+      width: 100%;
       border-radius: 2rem;
     `}
 
   ${(props) => css`
-    background-color: ${props.theme[props.color]};
+    background-color: ${props.theme.pallete[props.color]};
   `}
 
   ${(props) =>
     props.active &&
     css`
       background-color: white;
-      color: ${props.theme[props.color]};
+      color: ${props.theme.pallete[props.color]};
     `}
 
   &:active {

@@ -1,14 +1,13 @@
-import "./App.css";
 import CalculatorTemplate from "./components/CalculatorTemplate";
 import CalculatorKeypad from "./containers/CalculatorKeypad";
 import CalculatorScreen from "./containers/CalulatorScreen";
 import { GlobalStyle } from "./styles/theme";
 import { ThemeProvider } from "styled-components";
-import { pallete } from "./styles/theme";
+import themes from "./styles/theme";
 
 function App() {
   return (
-    <ThemeProvider theme={pallete}>
+    <ThemeProvider theme={themes}>
       <GlobalStyle />
       <CalculatorTemplate>
         <CalculatorScreen />
